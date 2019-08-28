@@ -23,5 +23,10 @@ export default {
                 import ('../../components/Search')
         },
 
+        {
+            path: "/movie",
+            redirect: "/movie/nowPlaying"
+        }
+
     ]
 }
