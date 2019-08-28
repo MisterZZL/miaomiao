@@ -90,13 +90,17 @@ export default {
 }*/
 
 .movie_body {
-  display: flex;
+  flex: 1;
+  overflow: auto;
   ul {
+    margin: 0 12px;
+    overflow: hidden;
     li {
       display: flex;
-      margin: 0 12px;
-      width: 100%;
+      margin-top:12px;
+      padding-bottom: 10px;
       align-items: center;
+      border-bottom: 1px solid #e6e6e6;
 
       .pic_show {
         width: 64px;
@@ -108,7 +112,7 @@ export default {
       .info_list {
         margin-left: 10px;
         flex: 1;
-        position: relative;
+        // position: relative;
         h2 {
           font-size: 17px;
           line-height: 24px;
@@ -137,9 +141,8 @@ export default {
       .btn_pre {
         width: 47px;
         height: 27px;
-        line-height: 27px;
+        line-height: 28px;
         text-align: center;
-        background-color: #f03d37;
         color: #fff;
         border-radius: 4px;
         font-size: 12px;
