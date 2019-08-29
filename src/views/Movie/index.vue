@@ -27,35 +27,16 @@ import Header from "../../components/Header";
 import TabBar from "../../components/TabBar";
 import NowPlaying from "../../components/NowPlaying";
 
-import { nowPlaying } from "../../api/movie";
+
 export default {
   name: "Movie",
-  data() {
-    return {
-      nowPlayingList: []
-    };
-  },
+  
   components: {
     Header,
     NowPlaying,
     TabBar
   },
 
-  methods: {
-    getNowPlaying() {
-      nowPlaying().then(res => {
-        console.log(res);
-        if (res.status === 0) {
-          this.nowPlayingList = res.data.movieList;
-          console.log(this.nowPlayingList);
-        }
-      });
-    }
-  },
-
-  mounted() {
-    this.getNowPlaying();
-  }
 };
 </script>
 <style lang="scss" scoped>

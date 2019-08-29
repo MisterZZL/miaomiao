@@ -1,19 +1,19 @@
 <template>
   <div class="movie_body">
     <ul>
-      <li>
+      <li v-for="item in comingSoonList" :key="item.id">
         <div class="pic_show">
           <img
-            src="http://p1.meituan.net/128.180/movie/c2ea0e5c6b9afb43add575c4d51d2f192279458.jpg"
+            :src="item.img | setWH('128.180')"
           />
         </div>
         <div class="info_list">
-          <h2>深夜食堂</h2>
+          <h2>{{item.nm}}</h2>
           <p>
-            <span class="person">45993</span> 人想看
+            <span class="person">{{item.wish}}</span> 人想看
           </p>
-          <p>主演: 梁家辉,刘涛,魏晨</p>
-          <p>2019-08-30上映</p>
+          <p>{{item.star}}</p>
+          <p>{{item.rt}}</p>
         </div>
         <div class="btn_pre">预售</div>
       </li>
@@ -22,10 +22,27 @@
 </template>
 
 <script>
+import {comingSoon} from '../../api/movie'
 export default {
   name: "ComingSoon",
   data() {
-    return {};
+    return {
+      comingSoonList:[]
+    };
+  },
+  methods:{
+    getComingSoon(){
+      comingSoon().then((res)=>{
+        // console.log(res);
+        if(res.status===0){
+          this.comingSoonList=res.data.comingList;
+          // console.log(this.comingSoonList);
+        }
+      })
+    }
+  },
+  mounted(){
+    this.getComingSoon()
   }
 };
 </script>
@@ -97,7 +114,7 @@ export default {
     overflow: hidden;
     li {
       display: flex;
-      margin-top:12px;
+      margin-top: 12px;
       padding-bottom: 10px;
       align-items: center;
       border-bottom: 1px solid #e6e6e6;
