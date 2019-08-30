@@ -39,29 +39,35 @@ export default {
     };
   },
   methods: {
+    //请求api 获取城市列表数据
     getCity() {
       let cities=[]
       city().then(res => {
         if (res.status === 0) {
           cities = res.data.cities;
+          
           let {cityList,hotList} = this.formatCityList(cities);
+
           this.cityList = cityList;
 					this.hotList = hotList;
           console.log(this.cityList);
         }
       });
     },
+
     //格式话城市列表
     formatCityList(cities) {
 			var cityList = [];
-			var hotList = [];
+      var hotList = [];
+      //提取出热门城市
 			for(var i=0;i<cities.length;i++) {
 				if(cities[i].isHot === 1) {
 					hotList.push(cities[i])
 				}
-			}
+      }
+      
 			for(var i=0;i<cities.length;i++) {
-				var firstLetter = cities[i].py.substring(0,1).toUpperCase()
+				var firstLetter = cities[i].py.substring(0,1).toUpperCase()// 每个城市首字母
 				if(toCom(firstLetter)) {
 					cityList.push({index:firstLetter,list:[{nm:cities[i].nm,id:cities[i].id}]})
 				}else {
@@ -97,7 +103,9 @@ export default {
 				cityList,
 				hotList
 			}
-		},
+    },
+    
+
   },
   mounted() {
     this.getCity();
