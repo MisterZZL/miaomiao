@@ -1,62 +1,52 @@
 <template>
-  <div data-v-35160c52 data-v-61e0df6e class="cinema_body">
-    <div data-v-3c6eb66d data-v-35160c52 class="wrapper">
-      <ul data-v-35160c52 data-v-3c6eb66d>
-        <li data-v-35160c52 data-v-3c6eb66d>
-          <div data-v-35160c52 data-v-3c6eb66d>
-            <span data-v-35160c52 data-v-3c6eb66d>中影南方激光影城（民治多米汇店）</span>
-            <span data-v-35160c52 data-v-3c6eb66d class="q">
-              <span data-v-35160c52 data-v-3c6eb66d class="price">9.9</span> 元起
+  <div class="cinema_body">
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
+    <Scroller>
+      <ul>
+        <li v-for="item in cinemaList" :key="item.id">
+          <div>
+            <span>{{item.nm}}</span>
+            <span class="q">
+              <span class="price">{{item.sellPrice}}</span> 元起
             </span>
           </div>
-          <div data-v-35160c52 data-v-3c6eb66d class="address">
-            <span data-v-35160c52 data-v-3c6eb66d>龙华区龙华新区民治大道866号多米汇2楼</span>
-            <span data-v-35160c52 data-v-3c6eb66d>1931.8km</span>
+          <div class="address">
+            <span>{{item.addr}}</span>
+            <span>{{item.distance}}</span>
           </div>
-          <div data-v-35160c52 data-v-3c6eb66d class="card">
-            <div data-v-35160c52 data-v-3c6eb66d class="bl">允许退款</div>
-            <!---->
-            <!---->
-            <!---->
-            <div data-v-35160c52 data-v-3c6eb66d class="bl">改签</div>
-            <!---->
-            <div data-v-35160c52 data-v-3c6eb66d class="or">折扣卡</div>
-            <div data-v-35160c52 data-v-3c6eb66d class="or">小吃</div>
-            <!---->
-          </div>
-        </li>
-        <li data-v-35160c52 data-v-3c6eb66d>
-          <div data-v-35160c52 data-v-3c6eb66d>
-            <span data-v-35160c52 data-v-3c6eb66d>华夏星光国际影城（南山书城店）</span>
-            <span data-v-35160c52 data-v-3c6eb66d class="q">
-              <span data-v-35160c52 data-v-3c6eb66d class="price">13.5</span> 元起
-            </span>
-          </div>
-          <div data-v-35160c52 data-v-3c6eb66d class="address">
-            <span data-v-35160c52 data-v-3c6eb66d>南山区海德二道南山书城7楼（海雅百货对面）</span>
-            <span data-v-35160c52 data-v-3c6eb66d>1946km</span>
-          </div>
-          <div data-v-35160c52 data-v-3c6eb66d class="card">
-            <div data-v-35160c52 data-v-3c6eb66d class="bl">允许退款</div>
-            <!---->
-            <!---->
-            <!---->
-            <div data-v-35160c52 data-v-3c6eb66d class="bl">改签</div>
-            <!---->
-            <!---->
-            <div data-v-35160c52 data-v-3c6eb66d class="or">折扣卡</div>
-            <div data-v-35160c52 data-v-3c6eb66d class="or">小吃</div>
-            <!---->
+          <div class="card">
+            <div class="bl" v-if="item.tag.allowRefund">允许退款</div>
+            <div class="bl" v-if="item.tag.endorse">改签</div>
+            <div class="or" v-if="item.tag.sell">折扣卡</div>
+            <div class="or" v-if="item.tag.snack">小吃</div>
           </div>
         </li>
       </ul>
-    </div>
+    </Scroller>
   </div>
 </template>
 
 <script>
+import {cinema} from '../../api/cinema'
+
+
 export default {
-  name: "CiList"
+  name: "CiList",
+  components:{
+
+  },
+  data(){
+    return{
+      cinemaList:[]
+    }
+  },
+  mounted(){
+    cinema().then((res)=>{
+      if(res.status===0){
+        this.cinemaList=res.data.cinemas
+      }
+    })
+  }
 };
 </script>
 

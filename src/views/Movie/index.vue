@@ -4,7 +4,7 @@
     <div id="content">
       <div class="movie_menu">
         <router-link tag="div" to="/movie/city" class="city_name">
-          <span>大连</span>
+          <span>{{$store.state.city.nm}}</span>
           <i class="iconfont icon-lower-triangle"></i>
         </router-link>
         <div class="hot_swtich">
@@ -26,13 +26,17 @@
 import Header from "../../components/Header";
 import TabBar from "../../components/TabBar";
 import NowPlaying from "../../components/NowPlaying";
+
+
 export default {
   name: "Movie",
+  
   components: {
     Header,
     NowPlaying,
     TabBar
-  }
+  },
+
 };
 </script>
 <style lang="scss" scoped>

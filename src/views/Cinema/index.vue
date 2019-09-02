@@ -16,7 +16,7 @@
           <i data-v-61e0df6e class="iconfont icon-lower-triangle"></i>
         </div>
       </div>
-      
+
       <keep-alive>
         <!-- <router-view /> -->
         <CiList />
@@ -31,11 +31,15 @@ import TabBar from "../../components/TabBar";
 import CiList from "../../components/CiList";
 export default {
   name: "Cinema",
+  data(){
+    return{}
+  },
   components: {
     Header,
     CiList,
     TabBar
-  }
+  },
+
 };
 </script>
 <style lang="scss" scope>

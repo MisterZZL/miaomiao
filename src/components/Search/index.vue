@@ -1,15 +1,29 @@
 <template>
   <div class="search_body">
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
     <div class="search_input">
       <div class="search_input_wrapper">
         <i class="iconfont icon-sousuo"></i>
-        <input type="text" />
+        <input type="text" v-model="keyword" />
       </div>
     </div>
     <div class="search_result">
       <h3>电影/电视剧/综艺</h3>
       <ul>
-       
+        <li v-for="item in searchResult" :key="item.id">
+          <div class="img">
+            <img :src="item.img | setWH('128.180')" />
+          </div>
+          <div class="info">
+            <p>
+              <span>{{item.nm}}</span>
+              <span>{{item.sc}}</span>
+            </p>
+            <p>{{item.enm}}</p>
+            <p>{{item.cat}}</p>
+            <p>{{item.pubDesc}}</p>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -17,7 +31,47 @@
 
 
 <script>
-export default {};
+import { search } from "../../api/search";
+import axios from "axios";
+export default {
+  name: "search",
+  data() {
+    return {
+      keyword: "",
+      searchResult: [],
+    };
+  },
+  methods: {
+    cancelRequest() {// 取消搜索时的多次请求
+      if (typeof this.source === "function") {
+        this.source("终止请求");
+      }
+    }
+  },
+  watch: {
+    keyword(newVal) {
+      let that = this;
+      this.cancelRequest()
+      search(newVal, {
+        cancelToken: new axios.CancelToken(function(c) {
+          that.source = c;
+        })
+      })
+        .then(res => {
+          if (res.data.movies && res.status === 0) {
+            this.searchResult = res.data.movies.list;
+          }
+        })
+        .catch(err => {
+          if (axios.isCancel(err)) {
+            console.log("Rquest canceled", err.message); //请求如果被取消，这里是返回取消的message
+          } else {
+            console.log(err);
+          }
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

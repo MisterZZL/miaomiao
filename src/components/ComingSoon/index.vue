@@ -1,31 +1,67 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li>
-        <div class="pic_show">
-          <img
-            src="http://p1.meituan.net/128.180/movie/c2ea0e5c6b9afb43add575c4d51d2f192279458.jpg"
-          />
-        </div>
-        <div class="info_list">
-          <h2>深夜食堂</h2>
-          <p>
-            <span class="person">45993</span> 人想看
-          </p>
-          <p>主演: 梁家辉,刘涛,魏晨</p>
-          <p>2019-08-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-    </ul>
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
+    <Scroller v-else :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
+      <ul>
+        <li class="pullDown">{{pullDownMsg}}</li>
+        <li v-for="item in comingSoonList" :key="item.id">
+          <div class="pic_show">
+            <img :src="item.img | setWH('128.180')" />
+          </div>
+          <div class="info_list">
+            <h2>{{item.nm}}</h2>
+            <p>
+              <span class="person">{{item.wish}}</span> 人想看
+            </p>
+            <p>{{item.star}}</p>
+            <p>{{item.rt}}</p>
+          </div>
+          <div class="btn_pre">预售</div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 
 <script>
+import { comingSoon } from "../../api/movie";
 export default {
   name: "ComingSoon",
   data() {
-    return {};
+    return {
+      comingSoonList: [],
+      pullDownMsg:''
+    };
+  },
+  methods: {
+    getComingSoon() {
+      comingSoon().then(res => {
+        if (res.status === 0) {
+          this.comingSoonList = res.data.comingList;
+        }
+      });
+    },
+    handleToScroll(pos) {
+      if (pos.y > 30) {
+        this.pullDownMsg = "正在更新";
+      }
+    },
+    handleToTouchEnd(pos) {
+      if (pos.y > 30) {
+        comingSoon().then(res => {
+          if (res.status === 0) {
+            this.pullDownMsg = "更新已完成";
+            setTimeout(() => {
+              this.comingSoonList = res.data.comingList;
+              this.pullDownMsg = "";
+            }, 1000);
+          }
+        });
+      }
+    }
+  },
+  mounted() {
+    this.getComingSoon();
   }
 };
 </script>
@@ -95,9 +131,14 @@ export default {
   ul {
     margin: 0 12px;
     overflow: hidden;
+    .pullDown {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
     li {
       display: flex;
-      margin-top:12px;
+      margin-top: 12px;
       padding-bottom: 10px;
       align-items: center;
       border-bottom: 1px solid #e6e6e6;

@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import city from './modules/city'
+import loadding from './modules/loadding'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -11,6 +14,11 @@ export default new Vuex.Store({
 
     },
     actions: {
+
+    },
+    modules: {
+        city,
+        loadding
 
     }
 })
