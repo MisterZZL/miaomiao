@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        isShowLodingOrNot: true,
+        isShowLodingOrNot: "",
     },
     mutations: {
         showLoding(state) {

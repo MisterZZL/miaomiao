@@ -1,6 +1,6 @@
 <template>
   <div class="city_body">
-
+    <Loading v-if="$store.state.isShowLodingOrNot"></Loading>
     <div class="city_list">
       <Scroller ref="city_list">
         <div>
