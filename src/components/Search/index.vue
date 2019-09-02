@@ -1,6 +1,6 @@
 <template>
   <div class="search_body">
-    <Loading v-if="$store.state.isShowLodingOrNot"></Loading>
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
     <div class="search_input">
       <div class="search_input_wrapper">
         <i class="iconfont icon-sousuo"></i>

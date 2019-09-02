@@ -1,6 +1,6 @@
 <template>
   <div class="cinema_body">
-    <Loading v-if="$store.state.isShowLodingOrNot"></Loading>
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
     <Scroller>
       <ul>
         <li v-for="item in cinemaList" :key="item.id">

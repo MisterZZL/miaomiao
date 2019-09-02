@@ -1,20 +1,24 @@
 <template>
   <div class="city_body">
-    <Loading v-if="$store.state.isShowLodingOrNot"></Loading>
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
     <div class="city_list">
       <Scroller ref="city_list">
         <div>
           <div class="city_hot">
             <h2>热门城市</h2>
             <ul class="clearfix">
-              <li v-for="item in hotList" :key="item.index">{{item.nm}}</li>
+              <li
+                v-for="item in hotList"
+                :key="item.index"
+                @tap="handleToCity(item.nm,item.id)"
+              >{{item.nm}}</li>
             </ul>
           </div>
           <div class="city_sort" ref="city_sort">
             <div v-for="item in cityList" :key="item.id">
               <h2>{{item.index}}</h2>
               <ul>
-                <li v-for="it in item.list" :key="it.id">{{it.nm}}</li>
+                <li v-for="it in item.list" :key="it.id" @tap="handleToCity(it.nm,it.id)">{{it.nm}}</li>
               </ul>
             </div>
           </div>
@@ -24,15 +28,20 @@
 
     <div class="city_index">
       <ul>
-        <li v-for="(item,index) in cityList" :key="item.id" @touchstart="handleToIndex(index)">{{item.index}}</li>
-      </ul>     
+        <li
+          v-for="(item,index) in cityList"
+          :key="item.id"
+          @touchstart="handleToIndex(index)"
+        >{{item.index}}</li>
+      </ul>
     </div>
-
   </div>
 </template>
 
 <script>
 import { city } from "../../api/city";
+import { mapMutations } from "vuex";
+
 export default {
   name: "City",
   data() {
@@ -51,10 +60,13 @@ export default {
           let { cityList, hotList } = this.formatCityList(cities);
           this.cityList = cityList;
           this.hotList = hotList;
+
+          // 将城市列表保存到本地
+          window.localStorage.setItem("cityList", JSON.stringify(cityList));
+          window.localStorage.setItem("hotList", JSON.stringify(hotList));
         }
       });
     },
-
     //格式话城市列表
     formatCityList(cities) {
       var cityList = [];
@@ -105,21 +117,35 @@ export default {
         hotList
       };
     },
-    
+
     //点击城市列表右侧的字母跳滚动到对应位置
     handleToIndex(index) {
       // 找到A、B、C...等
       var h2 = this.$refs.city_sort.getElementsByTagName("h2");
-      console.log(h2);
       //设置A、B、C...距离上方或上层控件的位置
-      console.log(typeof this.$refs.city_list.toScrollTop)
-      this.$refs.city_list.toScrollTop(-h2[index].offsetTop)
+      this.$refs.city_list.toScrollTop(-h2[index].offsetTop);
+    },
+    // 切换城市并保存到本地
+    ...mapMutations("city",["CITY_INFO"]),
+    handleToCity(nm, id) {
+      // this.$store.commit("city/CITY_INFO", { nm, id });
+      this.CITY_INFO({ nm, id });
+      window.localStorage.setItem("nowNm", nm);
+      window.localStorage.setItem("nowId", id);
+      this.$router.push("/movie/nowPlaying");
     }
   },
   mounted() {
-    this.getCity();
+    let cityList = window.localStorage.getItem("cityList");
+    let hotList = window.localStorage.getItem("hotList");
+    if (hotList && cityList) {
+      this.cityList = JSON.parse(cityList);
+      this.hotList = JSON.parse(hotList);
+    } else {
+      this.getCity();
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

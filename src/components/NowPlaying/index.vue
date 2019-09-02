@@ -1,6 +1,6 @@
 <template>
   <div class="movie_body">
-    <Loading v-if="$store.state.isShowLodingOrNot"></Loading>
+    <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
     <Scroller :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
       <ul>
         <li class="pullDown">{{pullDownMsg}}</li>
