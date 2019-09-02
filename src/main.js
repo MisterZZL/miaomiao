@@ -14,6 +14,10 @@ Vue.filter("setWH", (url, arg) => {
     return url.replace(/w\.h/, arg)
 })
 
+/* better-scroll */
+import Scroller from './components/Scroller'
+Vue.component ('Scroller',Scroller)
+
 new Vue({
     router,
     store,

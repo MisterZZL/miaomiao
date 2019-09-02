@@ -1,7 +1,8 @@
 <template>
   <div class="city_body">
+
     <div class="city_list">
-      <div class="wrapper">
+      <Scroller ref="city_list">
         <div>
           <div class="city_hot">
             <h2>热门城市</h2>
@@ -9,22 +10,24 @@
               <li v-for="item in hotList" :key="item.index">{{item.nm}}</li>
             </ul>
           </div>
-          <div class="city_sort">
+          <div class="city_sort" ref="city_sort">
             <div v-for="item in cityList" :key="item.id">
-              <h2 >{{item.index}}</h2>
-              <ul >
+              <h2>{{item.index}}</h2>
+              <ul>
                 <li v-for="it in item.list" :key="it.id">{{it.nm}}</li>
               </ul>
             </div>
           </div>
         </div>
-      </div>
+      </Scroller>
     </div>
+
     <div class="city_index">
       <ul>
-        <li v-for="item in cityList" :key="item.id">{{item.index}}</li>
-      </ul>
+        <li v-for="(item,index) in cityList" :key="item.id" @touchstart="handleToIndex(index)">{{item.index}}</li>
+      </ul>     
     </div>
+
   </div>
 </template>
 
@@ -35,83 +38,90 @@ export default {
   data() {
     return {
       cityList: [],
-			hotList: [],
+      hotList: []
     };
   },
   methods: {
     //请求api 获取城市列表数据
     getCity() {
-      let cities=[]
+      let cities = [];
       city().then(res => {
         if (res.status === 0) {
           cities = res.data.cities;
-          
-          let {cityList,hotList} = this.formatCityList(cities);
-
+          let { cityList, hotList } = this.formatCityList(cities);
           this.cityList = cityList;
-					this.hotList = hotList;
-          console.log(this.cityList);
+          this.hotList = hotList;
         }
       });
     },
 
     //格式话城市列表
     formatCityList(cities) {
-			var cityList = [];
+      var cityList = [];
       var hotList = [];
       //提取出热门城市
-			for(var i=0;i<cities.length;i++) {
-				if(cities[i].isHot === 1) {
-					hotList.push(cities[i])
-				}
+      for (var i = 0; i < cities.length; i++) {
+        if (cities[i].isHot === 1) {
+          hotList.push(cities[i]);
+        }
       }
-      
-			for(var i=0;i<cities.length;i++) {
-				var firstLetter = cities[i].py.substring(0,1).toUpperCase()// 每个城市首字母
-				if(toCom(firstLetter)) {
-					cityList.push({index:firstLetter,list:[{nm:cities[i].nm,id:cities[i].id}]})
-				}else {
-					for(var j=0;j<cityList.length;j++) {
-						if(cityList[j].index === firstLetter) {
-							cityList[j].list.push({nm:cities[i].nm,id:cities[i].id})
-						}
-					}
-				}
-			}
 
-			cityList.sort((n1,n2) => {
-				if (n1.index > n2.index) {
-					return 1
-				}else if(n1.index < n2.index) {
-					return -1
-				}else {
-					return 0
-				}
-			})
+      for (var i = 0; i < cities.length; i++) {
+        var firstLetter = cities[i].py.substring(0, 1).toUpperCase(); // 每个城市首字母
+        if (toCom(firstLetter)) {
+          cityList.push({
+            index: firstLetter,
+            list: [{ nm: cities[i].nm, id: cities[i].id }]
+          });
+        } else {
+          for (var j = 0; j < cityList.length; j++) {
+            if (cityList[j].index === firstLetter) {
+              cityList[j].list.push({ nm: cities[i].nm, id: cities[i].id });
+            }
+          }
+        }
+      }
 
-			function toCom(firstLetter) {
-				for(var i=0;i<cityList.length;i++) {
-					if (cityList[i].index === firstLetter) {
-						return false
-					}
-				}
-				return true
-			}
-			// console.log(cityList);
-			// console.log(hotList);
-			return {
-				cityList,
-				hotList
-			}
+      cityList.sort((n1, n2) => {
+        if (n1.index > n2.index) {
+          return 1;
+        } else if (n1.index < n2.index) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      function toCom(firstLetter) {
+        for (var i = 0; i < cityList.length; i++) {
+          if (cityList[i].index === firstLetter) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return {
+        cityList,
+        hotList
+      };
     },
     
-
+    //点击城市列表右侧的字母跳滚动到对应位置
+    handleToIndex(index) {
+      // 找到A、B、C...等
+      var h2 = this.$refs.city_sort.getElementsByTagName("h2");
+      console.log(h2);
+      //设置A、B、C...距离上方或上层控件的位置
+      console.log(typeof this.$refs.city_list.toScrollTop)
+      this.$refs.city_list.toScrollTop(-h2[index].offsetTop)
+    }
   },
   mounted() {
     this.getCity();
   }
-};
+}
 </script>
+
 <style lang="scss" scoped>
 .city_body {
   margin-top: 45px;

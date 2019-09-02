@@ -1,48 +1,66 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="item in comingSoonList" :key="item.id">
-        <div class="pic_show">
-          <img
-            :src="item.img | setWH('128.180')"
-          />
-        </div>
-        <div class="info_list">
-          <h2>{{item.nm}}</h2>
-          <p>
-            <span class="person">{{item.wish}}</span> 人想看
-          </p>
-          <p>{{item.star}}</p>
-          <p>{{item.rt}}</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-    </ul>
+    <Scroller :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
+      <ul>
+        <li class="pullDown">{{pullDownMsg}}</li>
+        <li v-for="item in comingSoonList" :key="item.id">
+          <div class="pic_show">
+            <img :src="item.img | setWH('128.180')" />
+          </div>
+          <div class="info_list">
+            <h2>{{item.nm}}</h2>
+            <p>
+              <span class="person">{{item.wish}}</span> 人想看
+            </p>
+            <p>{{item.star}}</p>
+            <p>{{item.rt}}</p>
+          </div>
+          <div class="btn_pre">预售</div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 
 <script>
-import {comingSoon} from '../../api/movie'
+import { comingSoon } from "../../api/movie";
 export default {
   name: "ComingSoon",
   data() {
     return {
-      comingSoonList:[]
+      comingSoonList: [],
+      pullDownMsg:''
     };
   },
-  methods:{
-    getComingSoon(){
-      comingSoon().then((res)=>{
-        // console.log(res);
-        if(res.status===0){
-          this.comingSoonList=res.data.comingList;
-          // console.log(this.comingSoonList);
+  methods: {
+    getComingSoon() {
+      comingSoon().then(res => {
+        if (res.status === 0) {
+          this.comingSoonList = res.data.comingList;
         }
-      })
+      });
+    },
+    handleToScroll(pos) {
+      if (pos.y > 30) {
+        this.pullDownMsg = "正在更新";
+      }
+    },
+    handleToTouchEnd(pos) {
+      if (pos.y > 30) {
+        comingSoon().then(res => {
+          if (res.status === 0) {
+            this.pullDownMsg = "更新已完成";
+            setTimeout(() => {
+              this.comingSoonList = res.data.comingList;
+              this.pullDownMsg = "";
+            }, 1000);
+          }
+        });
+      }
     }
   },
-  mounted(){
-    this.getComingSoon()
+  mounted() {
+    this.getComingSoon();
   }
 };
 </script>
@@ -112,6 +130,11 @@ export default {
   ul {
     margin: 0 12px;
     overflow: hidden;
+    .pullDown {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
     li {
       display: flex;
       margin-top: 12px;

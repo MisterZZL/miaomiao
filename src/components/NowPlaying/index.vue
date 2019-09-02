@@ -1,29 +1,29 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="item in nowPlayingList" :key="item.id">
-        <div class="pic_show">
-          <!-- 128.180这个参数需要加引号 -->
-          <img :src="item.img | setWH('128.180')"/>
-        </div>
-        <div class="info_list">
-          <h2>
-            {{item.nm}}
-            <img v-if="item.version"
-              src="../../assets/maxs.png"
-            />
-          </h2>
-          <p>
-            观众评
-            <span class="grade">{{item.sc}}</span>
-          </p>
-          <p>{{item.star}}</p>
-          <p>{{item.showInfo}}</p>
-        </div>
-        <div class="btn_mall">购票</div>
-      </li>
-      
-    </ul>
+    <Scroller :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
+      <ul>
+        <li class="pullDown">{{pullDownMsg}}</li>
+        <li v-for="item in nowPlayingList" :key="item.id">
+          <div class="pic_show">
+            <!-- 128.180这个参数需要加引号 -->
+            <img :src="item.img | setWH('128.180')" />
+          </div>
+          <div class="info_list">
+            <h2>
+              {{item.nm}}
+              <img v-if="item.version" src="../../assets/maxs.png" />
+            </h2>
+            <p>
+              观众评
+              <span class="grade">{{item.sc}}</span>
+            </p>
+            <p>{{item.star}}</p>
+            <p>{{item.showInfo}}</p>
+          </div>
+          <div class="btn_mall">购票</div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 
@@ -34,7 +34,8 @@ export default {
   name: "nowPlaying",
   data() {
     return {
-      nowPlayingList: []
+      nowPlayingList: [],
+      pullDownMsg: ""
     };
   },
   methods: {
@@ -46,6 +47,26 @@ export default {
           // console.log(this.nowPlayingList);
         }
       });
+    },
+    /* 下拉刷新 */
+    handleToScroll(pos) {
+      if (pos.y > 30) {
+        
+        this.pullDownMsg = "正在更新";
+      }
+    },
+    handleToTouchEnd(pos) {
+      if (pos.y > 30) {
+        nowPlaying().then(res => {
+          if (res.status === 0) {
+            this.pullDownMsg = "更新已完成";
+            setTimeout(() => {
+              this.nowPlayingList = res.data.movieList;
+              this.pullDownMsg = "";
+            }, 1000);
+          }
+        });
+      }
     }
   },
 
@@ -64,13 +85,23 @@ export default {
   ul {
     margin: 0 12px;
     overflow: hidden;
-
+    .pullDown {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
     li {
       margin-top: 12px;
       display: flex;
       align-items: center;
       border-bottom: 1px solid #e6e6e6;
       padding-bottom: 10px;
+
+      .pullDown {
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
 
       .pic_show {
         width: 64px;
