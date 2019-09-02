@@ -1,6 +1,7 @@
 <template>
   <div class="movie_body">
-    <Scroller :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
+    <Loading v-if="$store.state.isShowLodingOrNot"></Loading>
+    <Scroller v-else :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
       <ul>
         <li class="pullDown">{{pullDownMsg}}</li>
         <li v-for="item in comingSoonList" :key="item.id">

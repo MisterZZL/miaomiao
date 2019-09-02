@@ -13,6 +13,9 @@ Vue.config.productionTip = false
 Vue.filter("setWH", (url, arg) => {
     return url.replace(/w\.h/, arg)
 })
+/* loading效果 */
+import Loading from './components/Loading'
+Vue.component ('Loading',Loading)
 
 /* better-scroll */
 import Scroller from './components/Scroller'
