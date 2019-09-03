@@ -21,7 +21,8 @@ Vue.component ('Loading',Loading)
 import Scroller from './components/Scroller'
 Vue.component ('Scroller',Scroller)
 
-new Vue({
+
+let vm= new Vue({
     router,
     store,
     render: h => h(App)

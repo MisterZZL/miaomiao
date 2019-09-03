@@ -51,8 +51,9 @@ export default {
   watch: {
     keyword(newVal) {
       let that = this;
+      var cityId = this.$store.state.city.id
       this.cancelRequest()
-      search(newVal, {
+      search(newVal,cityId, {
         cancelToken: new axios.CancelToken(function(c) {
           that.source = c;
         })

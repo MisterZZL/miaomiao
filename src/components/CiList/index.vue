@@ -27,25 +27,28 @@
 </template>
 
 <script>
-import {cinema} from '../../api/cinema'
-
+import { cinema } from "../../api/cinema";
 
 export default {
   name: "CiList",
-  components:{
-
+  components: {},
+  data() {
+    return {
+      cinemaList: [],
+      currentCityId: -1
+    };
   },
-  data(){
-    return{
-      cinemaList:[]
+  activated() {
+    let cityId = this.$store.state.city.id;
+    if (this.currentCityId == cityId) {
+      return;
     }
-  },
-  mounted(){
-    cinema().then((res)=>{
-      if(res.status===0){
-        this.cinemaList=res.data.cinemas
+    cinema(cityId).then(res => {
+      if (res.status === 0) {
+        this.cinemaList = res.data.cinemas;
       }
-    })
+    });
+    this.currentCityId = cityId;
   }
 };
 </script>

@@ -36,12 +36,13 @@ export default {
   data() {
     return {
       nowPlayingList: [],
-      pullDownMsg: ""
+      pullDownMsg: "", //下拉是顶部显示信息
+      currentCityId: -1 //初始化一个当前城市ID，用作与本地存储对比
     };
   },
   methods: {
-    getNowPlaying() {
-      nowPlaying().then(res => {
+    getNowPlaying(id) {
+      nowPlaying(id).then(res => {
         // console.log(res);
         if (res.status === 0) {
           this.nowPlayingList = res.data.movieList;
@@ -52,7 +53,6 @@ export default {
     /* 下拉刷新 */
     handleToScroll(pos) {
       if (pos.y > 30) {
-        
         this.pullDownMsg = "正在更新";
       }
     },
@@ -71,8 +71,13 @@ export default {
     }
   },
 
-  mounted() {
-    this.getNowPlaying();
+  activated() {
+    let cityId = this.$store.state.city.id;
+    if (this.currentCityId == cityId) {
+      return;
+    }
+    this.getNowPlaying(cityId);
+    this.currentCityId = cityId;
   }
 };
 </script>

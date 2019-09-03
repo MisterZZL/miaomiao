@@ -30,12 +30,13 @@ export default {
   data() {
     return {
       comingSoonList: [],
-      pullDownMsg:''
+      pullDownMsg:'',
+      currentCityId: -1
     };
   },
   methods: {
-    getComingSoon() {
-      comingSoon().then(res => {
+    getComingSoon(id) {
+      comingSoon(id).then(res => {
         if (res.status === 0) {
           this.comingSoonList = res.data.comingList;
         }
@@ -60,8 +61,13 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getComingSoon();
+  activated() {
+    let cityId = this.$store.state.city.id;
+    if (this.currentCityId == cityId) {
+      return;
+    }
+    this.getComingSoon(cityId);
+    this.currentCityId = cityId;
   }
 };
 </script>

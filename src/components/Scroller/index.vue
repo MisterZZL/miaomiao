@@ -22,16 +22,18 @@ export default {
     return {};
   },
   mounted() {
-    var scroll = new BScroll(this.$refs.wrapper, {
-      tap: true,
-      probeType: 1
-    });
-    this.scroll = scroll;
-    scroll.on("scroll", pos => {
-      this.handleToScroll(pos);
-    });
-    scroll.on("touchEnd", pos => {
-      this.handleToTouchEnd(pos);
+    this.$nextTick(() => {
+      var scroll = new BScroll(this.$refs.wrapper, {
+        tap: true,
+        probeType: 1
+      });
+      scroll.on("scroll", pos => {
+        this.handleToScroll(pos);
+      });
+      scroll.on("touchEnd", pos => {
+        this.handleToTouchEnd(pos);
+      });
+      this.scroll = scroll;
     });
   },
   methods: {
