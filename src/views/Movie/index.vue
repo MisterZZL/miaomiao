@@ -18,6 +18,7 @@
       <keep-alive>
         <router-view />
       </keep-alive>
+      <MsssageBox></MsssageBox>
     </div>
     <TabBar></TabBar>
   </div>
@@ -27,6 +28,8 @@ import Header from "../../components/Header";
 import TabBar from "../../components/TabBar";
 import NowPlaying from "../../components/NowPlaying";
 
+import MsssageBox from "../../components/JS/MessageBox"
+
 
 export default {
   name: "Movie",
@@ -34,7 +37,8 @@ export default {
   components: {
     Header,
     NowPlaying,
-    TabBar
+    TabBar,
+    MsssageBox
   },
 
 };
