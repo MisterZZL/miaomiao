@@ -5,11 +5,11 @@
       <ul>
         <li class="pullDown">{{pullDownMsg}}</li>
         <li v-for="item in nowPlayingList" :key="item.id">
-          <div class="pic_show">
+          <div @tap="handleToDetail(item.id)" class="pic_show">
             <!-- 128.180这个参数需要加引号 -->
             <img :src="item.img | setWH('128.180')" />
           </div>
-          <div class="info_list">
+          <div @tap="handleToDetail(item.id)" class="info_list">
             <h2>
               {{item.nm}}
               <img v-if="item.version" src="../../assets/maxs.png" />
@@ -68,6 +68,10 @@ export default {
           }
         });
       }
+    },
+  //点击进入详情页面
+    handleToDetail(movieId){
+      this.$router.push("/movie/detail/" +movieId)
     }
   },
 

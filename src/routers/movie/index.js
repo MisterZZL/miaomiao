@@ -23,14 +23,19 @@ export default {
                 import ('../../components/Search')
         },
         {
-            path: 'detail',
+            path: 'detail/:movieId',
             components: {
-                default: () =>import ('../../components/NowPlaying'),
-                detail:  () =>import ('../../views/Movie/detail.vue'),
-                
-              }
-            
-                
+                default: () =>
+                    import ('../../components/NowPlaying'),
+                detail: () =>
+                    import ('../../views/Movie/detail.vue'),
+
+            },
+            props: {
+                detail: true
+            }
+
+
         },
         {
             path: "/movie",
