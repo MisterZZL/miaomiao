@@ -1,23 +1,26 @@
 <template>
   <div class="messageBox">
-    <h2>定位</h2>
-    <p>是否切换到当前城市：北京</p>
+    <h2>{{title}}</h2>
+    <p>是否切换到当前城市：{{content}}</p>
     <div>
-      <span>否</span>
-      <span>是</span>
+      <span @touchstart="handleCancel">{{cancel}}</span>
+      <span @touchstart="handleOk">{{ok}}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MessageBox"
+  name: "MessageBox",
+  // mounted(){
+  //   console.log("定位组件加载")
+  // }
 };
 </script>
 
 <style lang="scss" scoped>
 .messageBox {
-  width: 270px;
+  width: 200px;
   height: 120px;
   border: 1px solid #ccc;
   background-color: #fff;
@@ -28,8 +31,8 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
-  margin: -60px 0 0 -135px;
-  padding: 15px;
+  margin: -60px 0 0 -100px;
+  padding-top: 15px;
   h2 {
     font-size: 18px;
     font-weight: 500;
@@ -42,7 +45,7 @@ export default {
     font-size: 14px;
     margin: 5px 0 0;
     text-align: center;
-    line-height: 21px;
+    line-height: 30px;
   }
   div {
     
@@ -52,6 +55,7 @@ export default {
     width: 100%;
     border-top: 1px solid #ccc;
     span {
+      color: blue;
         flex: 1;
         text-align: center;
         line-height: 30px;

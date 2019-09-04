@@ -18,7 +18,6 @@
       <keep-alive>
         <router-view />
       </keep-alive>
-      <MsssageBox></MsssageBox>
     </div>
     <TabBar></TabBar>
   </div>
@@ -26,21 +25,42 @@
 <script>
 import Header from "../../components/Header";
 import TabBar from "../../components/TabBar";
-import NowPlaying from "../../components/NowPlaying";
 
-import MsssageBox from "../../components/JS/MessageBox"
+import { messageBox } from "../../components/JS";
 
+import { location } from "../../api/location.js";
 
 export default {
   name: "Movie",
-  
+
   components: {
     Header,
-    NowPlaying,
-    TabBar,
-    MsssageBox
+    TabBar
   },
-
+  mounted() {
+    setTimeout(() => {
+      location().then(res => {
+        if (res.status === 0) {
+          var nm = res.data.nm;
+          var id = res.data.id;
+          if (this.$store.state.city.id == id) {
+            return;
+          }
+          messageBox({
+            title: "定位",
+            content: nm,
+            cancel: "否",
+            ok: "是",
+            handleOk() {
+              window.localStorage.setItem("nowNm", nm);
+              window.localStorage.setItem("nowId", id);
+              window.location.reload();
+            }
+          });
+        }
+      });
+    }, 2000);
+  }
 };
 </script>
 <style lang="scss" scoped>
