@@ -22,7 +22,16 @@ export default {
             component: () =>
                 import ('../../components/Search')
         },
-
+        {
+            path: 'detail',
+            components: {
+                default: () =>import ('../../components/NowPlaying'),
+                detail:  () =>import ('../../views/Movie/detail.vue'),
+                
+              }
+            
+                
+        },
         {
             path: "/movie",
             redirect: "/movie/nowPlaying"

@@ -73,63 +73,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/*
-.movie_body {
-  flex: 1;
-  overflow: auto;
-  ul {
-    margin: 0 12px;
-    overflow: hidden;
-    li {
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px #e6e6e6 solid;
-      padding-bottom: 10px;
-    }
-  }
-  .pic_show {
-    width: 64px;
-    height: 90px;
-
-    img {
-      width: 100%;
-    }
-  }
-  .info_list {
-    margin-left: 10px;
-    flex: 1;
-    position: relative;
-    h2 {
-      font-size: 17px;
-      line-height: 24px;
-      width: 150px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    p {
-      font-size: 13px;
-      color: #666;
-      line-height: 22px;
-      width: 200px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .btn_pre {
-      width: 47px;
-      height: 27px;
-      line-height: 28px;
-      text-align: center;
-      background-color: #3c9fe6;
-      color: #fff;
-      border-radius: 4px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-  }
-}*/
 
 .movie_body {
   flex: 1;
