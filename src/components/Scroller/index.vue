@@ -9,6 +9,7 @@ import BScroll from "better-scroll";
 export default {
   name: "Scroll",
   props: {
+
     handleToScroll: {
       type: Function,
       default: function() {}
@@ -25,7 +26,7 @@ export default {
     this.$nextTick(() => {
       var scroll = new BScroll(this.$refs.wrapper, {
         tap: true,
-        probeType: 1
+        probeType: 1,
       });
       scroll.on("scroll", pos => {
         this.handleToScroll(pos);

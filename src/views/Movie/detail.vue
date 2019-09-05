@@ -8,11 +8,12 @@
 
     <div id="content" class="contentDetail">
       <div class="detail_list">
-        <div class="back" :style="{'background-image' : bacimg}"></div>
+        <div class="back" :style="{'background-image' : 'url('+ detailMovie.albumImg +')'}"></div>
+
         <div class="backcolor"></div>
         <div class="detail_list_content">
           <div class="detail_list_img">
-            <img :src="detailMovie.img | setWH('128.180')" />
+            <img :src="detailMovie.albumImg" alt />
           </div>
           <div class="detail_list_info">
             <h2>{{detailMovie.nm}}</h2>
@@ -30,24 +31,83 @@
       </div>
 
       <div class="detail_player">
-        <ul class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-          <li class="swiper-slide swiper-slide-active">
-            <div>
-              <img
-                src="http://p0.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                alt
-              />
-            </div>
-          </li>
-          <li class="swiper-slide swiper-slide-next">
-            <div>
-              <img
-                src="http://p0.meituan.net/140.127/movie/09bb1efcaff16e0ec22b987f4a5a1932587577.jpg"
-                alt
-              />
-            </div>
-          </li>
-        </ul>
+        <div class="wrapper" ref="wrapper">
+          <ul class="swiper-wrapper">
+            <li class="swiper-slide">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+
+            <li class="swiper-slide">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+            <li class="swiper-slide swiper-slide-active">
+              <div>
+                <img
+                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
+                  alt
+                />
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -56,19 +116,22 @@
 <script>
 import Header from "../../components/Header";
 import { movieDetail } from "../../api/movieDetail";
+
+import BScroll from "better-scroll";
+
 export default {
   name: "detail",
   data() {
     return {
       detailMovie: {},
-      bacimg:""
+      bacimg: ""
     };
   },
-  props: ["movieId"],//接收路由中传递的参数Id
+  props: ["movieId"], //接收路由中传递的参数Id
   methods: {
-      handleToBack(){
-          this.$router.back()
-      }
+    handleToBack() {
+      this.$router.back();
+    }
   },
   components: {
     Header
@@ -77,9 +140,19 @@ export default {
     movieDetail(this.movieId).then(res => {
       if (res.status === 0) {
         this.detailMovie = res.data.detailMovie;
-        this.bacimg=this.detailMovie.img.replace(/w\.h/,'128.180')
-        console.log(this.bacimg)
       }
+      this.$nextTick(() => {
+        var scroll = new BScroll(this.$refs.wrapper, {
+          tap: true,
+          probeType: 1,
+
+          startX: 0,
+          click: true,
+          scrollX: true,
+          scrollY: false,
+          eventPassthrough: "vertical"
+        });
+      });
     });
   }
 };
@@ -161,6 +234,23 @@ export default {
       padding: 10px;
     }
     .detail_player {
+      position: relative;
+      height: 140px;
+      .wrapper {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+
+        .swiper-wrapper {
+          display: flex;
+          // position: relative;
+          top: 0;
+          li {
+            width: 70px;
+          }
+        }
+      }
     }
   }
 }
