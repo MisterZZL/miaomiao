@@ -69,9 +69,9 @@ export default {
         });
       }
     },
-  //点击进入详情页面
-    handleToDetail(movieId){
-      this.$router.push("/movie/detail/" +movieId)
+    //点击进入详情页面
+    handleToDetail(movieId) {
+      this.$router.push("/movie/detail/" + movieId);
     }
   },
 

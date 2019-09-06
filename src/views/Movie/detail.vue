@@ -33,77 +33,9 @@
       <div class="detail_player">
         <div class="wrapper" ref="wrapper">
           <ul class="swiper-wrapper">
-            <li class="swiper-slide">
+            <li class="swiper-slide" v-for="(item,index) in detailMovie.photos" :key="index" >
               <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-
-            <li class="swiper-slide">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
-              </div>
-            </li>
-            <li class="swiper-slide swiper-slide-active">
-              <div>
-                <img
-                  src="http://p1.meituan.net/140.127/movie/73ef1fd5f7d7d2740d969de6009c2a6c646756.jpg"
-                  alt
-                />
+                <img :src="item | setWH('140.127')" alt="">
               </div>
             </li>
           </ul>
@@ -145,12 +77,8 @@ export default {
         var scroll = new BScroll(this.$refs.wrapper, {
           tap: true,
           probeType: 1,
-
           startX: 0,
-          click: true,
           scrollX: true,
-          scrollY: false,
-          eventPassthrough: "vertical"
         });
       });
     });
@@ -233,21 +161,27 @@ export default {
     .detail_intro {
       padding: 10px;
     }
+
     .detail_player {
-      position: relative;
-      height: 140px;
+      // height: 140px;
       .wrapper {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
+        margin: 0 auto;
+        width: 90%;
         height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        overflow: hidden;
 
         .swiper-wrapper {
           display: flex;
-          // position: relative;
-          top: 0;
+          
           li {
             width: 70px;
+            margin-right: 20px;
+            img{
+              width: 100%;
+            }
           }
         }
       }

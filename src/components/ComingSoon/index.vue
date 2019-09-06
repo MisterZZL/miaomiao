@@ -5,10 +5,10 @@
       <ul>
         <li class="pullDown">{{pullDownMsg}}</li>
         <li v-for="item in comingSoonList" :key="item.id">
-          <div class="pic_show">
+          <div @tap="handleToDetail(item.id)" class="pic_show">
             <img :src="item.img | setWH('128.180')" />
           </div>
-          <div class="info_list">
+          <div @tap="handleToDetail(item.id)" class="info_list">
             <h2>{{item.nm}}</h2>
             <p>
               <span class="person">{{item.wish}}</span> 人想看
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       comingSoonList: [],
-      pullDownMsg:'',
+      pullDownMsg: "",
       currentCityId: -1
     };
   },
@@ -59,6 +59,10 @@ export default {
           }
         });
       }
+    },
+    //点击进入详情页面
+    handleToDetail(movieId) {
+      this.$router.push("/movie/detail/" + movieId);
     }
   },
   activated() {
@@ -73,7 +77,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .movie_body {
   flex: 1;
   overflow: auto;
