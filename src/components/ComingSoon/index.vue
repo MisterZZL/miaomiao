@@ -49,7 +49,7 @@ export default {
     },
     handleToTouchEnd(pos) {
       if (pos.y > 30) {
-        comingSoon().then(res => {
+        comingSoon(this.$store.state.city.id).then(res => {
           if (res.status === 0) {
             this.pullDownMsg = "更新已完成";
             setTimeout(() => {

@@ -42,11 +42,9 @@ export default {
   },
   methods: {
     getNowPlaying(id) {
-      nowPlaying(id).then(res => {
-        // console.log(res);
+      nowPlaying(id).then(res => {    
         if (res.status === 0) {
           this.nowPlayingList = res.data.movieList;
-          // console.log(this.nowPlayingList);
         }
       });
     },
@@ -58,7 +56,7 @@ export default {
     },
     handleToTouchEnd(pos) {
       if (pos.y > 30) {
-        nowPlaying().then(res => {
+        nowPlaying(this.$store.state.city.id).then(res => {
           if (res.status === 0) {
             this.pullDownMsg = "更新已完成";
             setTimeout(() => {
