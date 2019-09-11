@@ -1,13 +1,13 @@
 <template>
   <div class="login_body">
     <div>
-      <input class="login_text" type="text" placeholder="账户名/手机号/Email" />
+      <input v-model="username" class="login_text" type="text" placeholder="账户名/手机号/Email" />
     </div>
     <div>
-      <input class="login_text" type="password" placeholder="请输入您的密码" />
+      <input v-model="password" class="login_text" type="password" placeholder="请输入您的密码" />
     </div>
     <div class="login_btn">
-      <input type="submit" value="登录" />
+      <input type="submit" value="登录" @touchstart="handleToLongin" />
     </div>
     <div class="login_link">
       <a href="#">立即注册</a>
@@ -17,8 +17,40 @@
 </template>
 
 <script>
+import { login } from "../../api/login.js";
+import { messageBox } from "../JS/index";
+// console.log(messageBox)
 export default {
-  name: "Login"
+  name: "Login",
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    handleToLongin(username, password) {
+      login(this.username, this.password).then(res => {
+        let that = this
+        if (res.status === 0) {
+          messageBox({
+            title: "登录",
+            content: "登录成功",
+            ok: "确定",
+            handleOk(){
+              that.$router.push('/mine/center')
+            },
+          });
+        }else{
+          messageBox({
+            title: "登录",
+            content: "登录失败",
+            ok: "确定"
+          });
+        }
+      });
+    }
+  }
 };
 </script>
 

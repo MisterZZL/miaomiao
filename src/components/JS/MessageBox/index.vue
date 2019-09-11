@@ -1,20 +1,17 @@
 <template>
   <div class="messageBox">
     <h2>{{title}}</h2>
-    <p>是否切换到当前城市：{{content}}</p>
+    <p>{{content}}</p>
     <div>
-      <span @touchstart="handleCancel">{{cancel}}</span>
-      <span @touchstart="handleOk">{{ok}}</span>
+      <span v-if="cancel" @touchstart="handleCancel">{{cancel}}</span>
+      <span v-if="ok" @touchstart="handleOk">{{ok}}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MessageBox",
-  // mounted(){
-  //   console.log("定位组件加载")
-  // }
+  name: "MessageBox"
 };
 </script>
 
@@ -48,7 +45,6 @@ export default {
     line-height: 30px;
   }
   div {
-    
     display: flex;
     position: absolute;
     bottom: 0;
@@ -56,13 +52,13 @@ export default {
     border-top: 1px solid #ccc;
     span {
       color: blue;
-        flex: 1;
-        text-align: center;
-        line-height: 30px;
-        border-right: 1px solid #ccc;
+      flex: 1;
+      text-align: center;
+      line-height: 30px;
+      border-right: 1px solid #ccc;
     }
     span:last-child {
-        border: none
+      border: none;
     }
   }
 }

@@ -49,7 +49,7 @@ export default {
           }
           messageBox({
             title: "定位",
-            content: nm,
+            content: "是否切换到当前城市："+nm,
             cancel: "否",
             ok: "是",
             handleOk() {
