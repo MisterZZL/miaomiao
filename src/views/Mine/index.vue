@@ -11,14 +11,14 @@
 <script>
 import Header from "../../components/Header";
 import Tabbar from "../../components/TabBar";
-import Login from "../../components/Login"
+
 
 export default {
     name: "Mine",
     components: {
         Header,
         Tabbar,
-        Login
+        
     }             
 }
 </script>
