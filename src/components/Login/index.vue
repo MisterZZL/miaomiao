@@ -10,16 +10,19 @@
       <input type="submit" value="登录" @touchstart="handleToLongin" />
     </div>
     <div class="login_link">
-      <a href="#">立即注册</a>
-      <a href="#">找回密码</a>
+      <routerLink to="/mine/login">立即注册</routerLink>
+      <routerLink to="/mine/findPassword">找回密码</routerLink>
     </div>
   </div>
 </template>
 
 <script>
-import { login } from "../../api/login.js";
+
+
 import { messageBox } from "../JS/index";
-// console.log(messageBox)
+import { mapActions } from "vuex";
+
+
 export default {
   name: "Login",
   data() {
@@ -29,8 +32,10 @@ export default {
     };
   },
   methods: {
-    handleToLongin(username, password) {
-      login(this.username, this.password).then(res => {
+    ...mapActions("login",["TO_LOGIN"]),
+    handleToLongin(username,password) {
+      this.TO_LOGIN({"username":this.username,"password":this.password}).then((res) => {
+        console.log(res);
         let that = this
         if (res.status === 0) {
           messageBox({
