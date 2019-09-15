@@ -4,10 +4,15 @@ export default {
     children: [
         {
             path: 'center',
+            meta: {needLogin: true},
             component: () =>
                 import('../../views/Mine/center.vue')
         },
-
+        {
+            path: 'register',
+            component: () =>
+                import ('../../components/Register/index.vue')
+        },
         {
             path: 'login',
             component: () =>

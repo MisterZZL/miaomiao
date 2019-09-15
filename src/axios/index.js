@@ -1,6 +1,8 @@
 import axios from "axios"
 import store from "../stores"
 
+import { getToken } from "../axios/set_and_get_Token"
+
 
 
 class AjaxRequest {
@@ -15,14 +17,14 @@ class AjaxRequest {
 
     //合并参数
     merge(options) {
-            // console.log(this._pending)
-            return {
-                ...options,
-                baseURL: this.baseURL,
-                timeout: this.timeout,
-            };
-        }
-        //拦截器
+        // console.log(this._pending)
+        return {
+            ...options,
+            baseURL: this.baseURL,
+            timeout: this.timeout,
+        };
+    }
+    //拦截器
     setInterceptor(instance, url) {
         //请求前拦截
         instance.interceptors.request.use((config) => {
@@ -30,10 +32,10 @@ class AjaxRequest {
             //判断queue是否为空，如果为空，则表示是第一次请求（避免多次请求重复触发loding效果）
             if (Object.keys(this.queue).length == 0) {
                 //请求前触发Loding效果
-                store.commit("loadding/SHOWLODING");
+                store.commit("loadding/SHOWLODING");   
             }
-            this.queue[url] = url;
-
+            this.queue[url] = url;           
+            config.headers.Authorization = getToken("token");
             return config;
         });
         //响应拦截

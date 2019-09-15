@@ -21,7 +21,6 @@ const mutations = {
 const actions = {
     async TO_LOGIN(state, options) {
         let res = await login(options.username, options.password)
-        console.log(res,111)
         if (res.status === 0) {
             // 登录成功，刷新本地保存的用户信息
             state.commit("setUser", res.username)
@@ -34,7 +33,7 @@ const actions = {
         }
 
     },
-    async toValidate(state) {
+    async TO_VALIDATE(state) {
         let res = await validate()
         if (res.status === 0) {
             state.commit("setUser", res.username)

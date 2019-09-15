@@ -23,6 +23,7 @@ export const loginOut = () => {
 
 //判断是否登录
 export const validate = () => {
+    // console.log("进入到api下validate")
     return axios.request({
         url: "/api2/users/validate",
         method: "get"

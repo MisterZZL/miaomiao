@@ -1,6 +1,7 @@
 <template>
   <div class="city_body">
     <Loading v-if="$store.state.loadding.isShowLodingOrNot"></Loading>
+
     <div class="city_list">
       <Scroller ref="city_list">
         <div>
@@ -40,7 +41,7 @@
 
 <script>
 import { city } from "../../api/city";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "City",
@@ -51,6 +52,7 @@ export default {
     };
   },
   methods: {
+    ...mapState("login", ["isShowLodingOrNot"]),
     //请求api 获取城市列表数据
     getCity() {
       let cities = [];
@@ -126,7 +128,7 @@ export default {
       this.$refs.city_list.toScrollTop(-h2[index].offsetTop);
     },
     // 切换城市并保存到本地
-    ...mapMutations("city",["CITY_INFO"]),
+    ...mapMutations("city", ["CITY_INFO"]),
     handleToCity(nm, id) {
       // this.$store.commit("city/CITY_INFO", { nm, id });
       this.CITY_INFO({ nm, id });

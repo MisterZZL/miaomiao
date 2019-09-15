@@ -10,7 +10,7 @@
       <input type="submit" value="登录" @touchstart="handleToLongin" />
     </div>
     <div class="login_link">
-      <routerLink to="/mine/login">立即注册</routerLink>
+      <routerLink to="/mine/register">立即注册</routerLink>
       <routerLink to="/mine/findPassword">找回密码</routerLink>
     </div>
   </div>
@@ -35,7 +35,6 @@ export default {
     ...mapActions("login",["TO_LOGIN"]),
     handleToLongin(username,password) {
       this.TO_LOGIN({"username":this.username,"password":this.password}).then((res) => {
-        console.log(res);
         let that = this
         if (res.status === 0) {
           messageBox({
@@ -43,6 +42,7 @@ export default {
             content: "登录成功",
             ok: "确定",
             handleOk(){
+              console.log("center")
               that.$router.push('/mine/center')
             },
           });
