@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h1>用户名：</h1>
-    <p>{{$store.state.login.username}}</p>
-    <p>{{username}}</p>
-
-    <!-- <p v-if="userInfo.data">{{ userInfo.data.username}}</p> -->
+    <div>
+      用户名：<span>{{$store.state.login.username}}</span>
+    </div>
+    <div>
+      用户名：<span>{{username}}</span>
+    </div>
     <div>
       <button @click="toLoginOut">退出登录</button>
     </div>

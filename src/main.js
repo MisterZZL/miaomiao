@@ -27,8 +27,6 @@ router.beforeEach(async (to, from, next) => {
     let isLogin = await store.dispatch("login/TO_VALIDATE")
     // 获取需要登录的页面路由
     let needLogin = to.matched.some(match => match.meta.needLogin)
-    
-    console.log("判断", isLogin, needLogin)
     if (needLogin) {//需要登录
         if (isLogin) {
             console.log("已经登录")
