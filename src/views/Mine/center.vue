@@ -25,9 +25,10 @@ export default {
   },
   computed: {
     ...mapState("login", ["username"]), // mapState放在计算属性中才起作用
-    ...mapMutations("login", ["setUser"]) //mapMutations还可以放在methods中
+    
   },
   methods: {
+    ...mapMutations("login", ["setUser"]), //mapMutations还可以放在methods中
     toGetUser() {
       getUser().then(res => {
         if (res.status === 0) {
@@ -39,6 +40,7 @@ export default {
     },
     toLoginOut() {
       loginOut().then(res => {
+        console.log(res)
         if (res.status === 0) {
           this.setUser("");
           this.$router.push("/mine/login");

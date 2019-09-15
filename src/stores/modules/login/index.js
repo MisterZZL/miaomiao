@@ -26,12 +26,8 @@ const actions = {
             state.commit("setUser", res.username)
             // 登录成功，保存token，也就是跟新保存的token时间
             setToken("token", res.token)
-            return res
-
-        } else {
-            return Promise.reject(res.data)
-        }
-
+        }  return res
+       
     },
     async TO_VALIDATE(state) {
         let res = await validate()
