@@ -1,10 +1,12 @@
 <template>
   <div>
     <div>
-      用户名：<span>{{$store.state.login.username}}</span>
+      用户名：
+      <span>{{$store.state.login.username}}</span>
     </div>
     <div>
-      用户名：<span>{{username}}</span>
+      用户名：
+      <span>{{username}}</span>
     </div>
     <div>
       <button @click="toLoginOut">退出登录</button>
@@ -16,6 +18,7 @@
 import { getUser } from "../../api/center.js";
 import { loginOut } from "../../api/login.js";
 import { mapState, mapMutations } from "vuex";
+import { setToken } from "../../axios/set_and_get_Token";
 
 export default {
   data() {
@@ -24,11 +27,10 @@ export default {
     };
   },
   computed: {
-    ...mapState("login", ["username"]), // mapState放在计算属性中才起作用
-    
+    ...mapState("login", ["username"]) // mapState放在计算属性中才起作用
   },
   methods: {
-    ...mapMutations("login", ["setUser"]), //mapMutations还可以放在methods中
+    // ...mapMutations("login", ["setUser"]), //mapMutations还可以放在methods中
     toGetUser() {
       getUser().then(res => {
         if (res.status === 0) {
@@ -40,9 +42,8 @@ export default {
     },
     toLoginOut() {
       loginOut().then(res => {
-        console.log(res)
         if (res.status === 0) {
-          this.setUser("");
+          setToken("token", "");// 退出登录，直接清楚本地token
           this.$router.push("/mine/login");
         }
       });
