@@ -32,7 +32,6 @@ const actions = {
     async TO_VALIDATE(state) {
         let res = await validate()
         if (res.status === 0) {
-            state.commit("setUser", res.username)
             // 验证成功，保存token
             setToken("token", res.token)
         }

@@ -42,7 +42,6 @@ export default {
             content: "登录成功",
             ok: "确定",
             handleOk(){
-              console.log("center")
               that.$router.push('/mine/center')
             },
           });
