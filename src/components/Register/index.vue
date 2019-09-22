@@ -3,7 +3,7 @@
     <div>
       邮箱：
       <input v-model="email" type="text" class="register_text" />
-      <button class="send_verify" @click="getVerify">发送验证码</button>
+      <button class="send_verify" @touchstart="getVerify">发送验证码</button>
     </div>
 
     <div>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="register_btn">
-      <input @click="regist" type="submit" value="注册" />
+      <input @touchstart="regist" type="submit" value="注册" />
     </div>
 
     <div class="register_link">
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { messageBox } from "../JS/MessageBox";
+import { messageBox } from "../JS/index";
 import { register, get_verify } from "../../api/register";
 export default {
   data() {
@@ -56,20 +56,19 @@ export default {
         if (res.status === 0) {
           messageBox({
             title: "发送验证码",
-            content: "发送成功",
+            content: res.msg,
             ok: "确定",
-            // handleOk() {
-            //   that.$router.push("/mine/login");
-            // }
           });
         } else {
           messageBox({
             title: "发送验证码",
-            content: "发送失败",
+            content: res.msg,
             ok: "确定"
           });
         }
-      });
+      }
+      
+      );
     },
     async regist() {
       let res = await register(this.username, this.password, this.email, this.verify)
@@ -78,17 +77,16 @@ export default {
           if (res.status === 0) {
             messageBox({
               title: "注册",
-              content: "注册成功",
+              content: res.msg,
               ok: "确定",
               handleOk() {
                 that.$router.push("/mine/login");
               }
             });
           } else {
-              console.log(res)
             messageBox({
               title: "注册",
-              content: "注册失败",
+              content: res.msg,
               ok: "确定"
             });
           }
