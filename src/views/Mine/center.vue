@@ -3,11 +3,24 @@
     <div>
       用户名：
       <span>{{$store.state.login.username}}</span>
+      <br />
+      <!-- <span>第二种获取status中值的方法,用户名:{{username}}</span> -->
     </div>
-    <div>
-      用户名：
-      <span>{{username}}</span>
+    isAdmin:{{$store.state.mine.isAdmin}}
+    <div v-if="$store.state.mine.isAdmin">
+      用户身份：
+      <span>
+        管理员 <a href="/admin" target="blank">进入后台管理</a>
+      </span>
     </div>
+
+    <div v-else>
+      用户身份：
+      <span>
+        <a>普通用户</a>
+      </span>
+    </div>
+
     <div>
       <button @click="toLoginOut">退出登录</button>
     </div>
@@ -17,33 +30,31 @@
 <script>
 import { getUser } from "../../api/center.js";
 import { loginOut } from "../../api/login.js";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { setToken } from "../../axios/set_and_get_Token";
 
 export default {
+  name: "center",
   data() {
     return {
       userInfo: []
     };
   },
-  computed: {
-    ...mapState("login", ["username"]) // mapState放在计算属性中才起作用
-  },
+  // computed: {
+  //   ...mapState("login", ["username"]) // mapState放在计算属性中才起作用
+  // },
   methods: {
-    // ...mapMutations("login", ["setUser"]), //mapMutations还可以放在methods中
+    // 获取用户信息
+    ...mapActions("mine", ["GET_USERINFO"]), //mapMutations还可以放在methods中
     toGetUser() {
-      getUser().then(res => {
-        if (res.status === 0) {
-          this.userInfo = res;
-        } else {
-          this.userInfo = "未登录";
-        }
-      });
+      this.GET_USERINFO();
     },
+
+
     toLoginOut() {
       loginOut().then(res => {
         if (res.status === 0) {
-          setToken("token", "");// 退出登录，直接清楚本地token
+          setToken("token", ""); // 退出登录，直接清楚本地token
           this.$router.push("/mine/login");
         }
       });

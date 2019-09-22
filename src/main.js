@@ -21,6 +21,10 @@ Vue.component('Loading', Loading)
 import Scroller from './components/Scroller'
 Vue.component('Scroller', Scroller)
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
 
 router.beforeEach(async (to, from, next) => {
     //判断验证是否通过
