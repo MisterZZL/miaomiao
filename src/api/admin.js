@@ -15,3 +15,15 @@ export const get_userList = () => {
         method: "get"
     });
 }
+
+// 账号冻结的相关操作
+export const updateFreeze = (email, isFreeze) => {
+    return axios.request({
+        url: "/api2/admin/updateFreeze",
+        method: "post",
+        data: {
+            email,
+            isFreeze
+        }
+    });
+}
