@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="nowTableData" style="width: 100%">
       <el-table-column label="日期">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.data }}</span>
+          <span style="margin-left: 10px">{{ scope.row.data |dateformat("YYYY-MM-DD HH:mm")}}</span>
         </template>
       </el-table-column>
 
@@ -37,15 +37,27 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <el-pagination
+      background
+      @size-change="handleSizeChange"
+      :page-sizes="[ 5, 10, 50, 100]"
+      :current-page.sync="currentPage"
+      :total="tableData.length"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
-import { get_userList, updateFreeze } from "../../api/admin";
+import { get_userList, updateFreeze, deleteUser } from "../../api/admin";
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      currentPage: 1, // 当前页
+      pageSize: 5 // 每一页多少条数据
     };
   },
 
@@ -56,9 +68,19 @@ export default {
       }
     });
   },
+
+  computed: {
+    nowTableData() {
+      return (
+        this.tableData.slice(
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        ) || []
+      );
+    }
+  },
   methods: {
     handleEdit(index, row) {
-      console.log(index, row);
       let messages = !row.isFreeze
         ? " 此操作将冻结该用户, 是否继续?"
         : "此操作将解除冻结, 是否继续?";
@@ -73,8 +95,7 @@ export default {
               type: "success",
               message: "操作成功"
             });
-            this.tableData[index].isFreeze=!row.isFreeze
-            console.log(this.tableData[index].isFreeze)
+            this.tableData[index].isFreeze = !row.isFreeze;
           });
         })
         .catch(() => {
@@ -86,7 +107,30 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
-    }
+      this.$confirm(" 此操作将删除该用户, 是否继续?", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteUser(row.email).then(res => {
+            this.$message({
+              type: "success",
+              message: "删除成功"
+            });
+            this.tableData.splice(index, 1);
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "warning",
+            message: "操作取消"
+          });
+        });
+    },
+    handleSizeChange(val) {
+        this.pageSize = val
+      },
   }
 };
 </script>

@@ -27,3 +27,13 @@ export const updateFreeze = (email, isFreeze) => {
         }
     });
 }
+
+export const deleteUser = (email, isFreeze) => {
+    return axios.request({
+        url: "/api2/admin/deleteUser",
+        method: "post",
+        data: {
+            email
+        }
+    });
+}

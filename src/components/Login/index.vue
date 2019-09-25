@@ -39,7 +39,7 @@ export default {
         if (res.status === 0) {
           messageBox({
             title: "登录",
-            content: "登录成功",
+            content: res.msg,
             ok: "确定",
             handleOk(){
               that.$router.push('/mine/center')
@@ -48,7 +48,7 @@ export default {
         }else{
           messageBox({
             title: "登录",
-            content: "登录失败",
+            content: res.msg,
             ok: "确定"
           });
         }

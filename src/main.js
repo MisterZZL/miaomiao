@@ -25,6 +25,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+// 定义全局过滤器，时间格式化(用moment插件)
+import moment  from "moment";
+
+Vue.filter('dateformat', function (datastr, pattern = "YYYY-MM-DD HH:mm:ss") {
+    return moment(datastr).format(pattern)
+})
+
 
 router.beforeEach(async (to, from, next) => {
     //判断验证是否通过
