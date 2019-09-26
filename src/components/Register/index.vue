@@ -3,7 +3,7 @@
     <div>
       邮箱：
       <input v-model="email" type="text" class="register_text" />
-      <button class="send_verify" @touchstart="getVerify">发送验证码</button>
+      <button class="send_verify" :disabled="disabled" @touchstart="getVerify">{{verifyInfo}}</button>
     </div>
 
     <div>
@@ -46,11 +46,17 @@ export default {
       email: "",
       username: "",
       password: "",
-      verify: ""
+      verify: "",
+      verifyInfo: "发送验证码",
+      disabled: false
     };
   },
   methods: {
     getVerify() {
+      if (this.disabled) {//"发送验证码" 不能点击
+        return;
+      }
+
       get_verify(this.email).then(res => {
         let that = this;
         if (res.status === 0) {
@@ -58,6 +64,9 @@ export default {
             title: "发送验证码",
             content: res.msg,
             ok: "确定",
+            handleOk(){
+              that.countDown();//倒计时
+            }
           });
         } else {
           messageBox({
@@ -66,32 +75,47 @@ export default {
             ok: "确定"
           });
         }
-      }
-      
-      );
+      });
     },
     async regist() {
-      let res = await register(this.username, this.password, this.email, this.verify)
-            
-          let that = this;
-          if (res.status === 0) {
-            messageBox({
-              title: "注册",
-              content: res.msg,
-              ok: "确定",
-              handleOk() {
-                that.$router.push("/mine/login");
-              }
-            });
-          } else {
-            messageBox({
-              title: "注册",
-              content: res.msg,
-              ok: "确定"
-            });
+      let res = await register(
+        this.username,
+        this.password,
+        this.email,
+        this.verify
+      );
+
+      let that = this;
+      if (res.status === 0) {
+        messageBox({
+          title: "注册",
+          content: res.msg,
+          ok: "确定",
+          handleOk() {
+            that.$router.push("/mine/login");
           }
-        
-      ;
+        });
+      } else {
+        messageBox({
+          title: "注册",
+          content: res.msg,
+          ok: "确定"
+        });
+      }
+    },
+    countDown(){
+      this.disabled = true
+      let count = 10
+      let timer = setInterval(()=>{
+        count--
+        this.verifyInfo = `剩余${count}秒`
+        if(count==0){
+          this.disabled = false
+          count=10
+          this.verifyInfo = "发送验证码"
+          clearInterval(timer)
+        }
+      },1000);
     }
   }
 };
