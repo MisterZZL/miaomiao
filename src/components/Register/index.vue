@@ -53,7 +53,9 @@ export default {
   },
   methods: {
     getVerify() {
-      if (this.disabled) {//"发送验证码" 不能点击
+      // 发送过一次验证码后，60秒内不能点击
+      if (this.disabled) {
+        //"发送验证码" 不能点击
         return;
       }
 
@@ -64,8 +66,8 @@ export default {
             title: "发送验证码",
             content: res.msg,
             ok: "确定",
-            handleOk(){
-              that.countDown();//倒计时
+            handleOk() {
+              that.countDown(); //倒计时
             }
           });
         } else {
@@ -103,19 +105,20 @@ export default {
         });
       }
     },
-    countDown(){
-      this.disabled = true
-      let count = 10
-      let timer = setInterval(()=>{
-        count--
-        this.verifyInfo = `剩余${count}秒`
-        if(count==0){
-          this.disabled = false
-          count=10
-          this.verifyInfo = "发送验证码"
-          clearInterval(timer)
+    // 倒计时函数
+    countDown() {
+      this.disabled = true;
+      let count = 60;
+      let timer = setInterval(() => {
+        count--;
+        this.verifyInfo = `剩余${count}秒`;
+        if (count == 0) {
+          this.disabled = false;
+          count = 60;
+          this.verifyInfo = "发送验证码";
+          clearInterval(timer);
         }
-      },1000);
+      }, 1000);
     }
   }
 };

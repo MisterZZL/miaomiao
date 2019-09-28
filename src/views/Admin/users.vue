@@ -95,7 +95,7 @@ export default {
               type: "success",
               message: "操作成功"
             });
-            this.tableData[index].isFreeze = !row.isFreeze;
+            this.nowTableData[index].isFreeze = !row.isFreeze;
           });
         })
         .catch(() => {
@@ -129,8 +129,8 @@ export default {
         });
     },
     handleSizeChange(val) {
-        this.pageSize = val
-      },
+      this.pageSize = val;
+    }
   }
 };
 </script>
