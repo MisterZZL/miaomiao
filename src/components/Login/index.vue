@@ -6,6 +6,10 @@
     <div>
       <input v-model="password" class="login_text" type="password" placeholder="请输入您的密码" />
     </div>
+    <div>
+      <input class="login_text" type="text" v-model="verifyImg" placeholder="请输入您的验证码" />
+      <img src="/api2/users/getVerifyImg" @touchstart="handleToVerifyImg" />
+    </div>
     <div class="login_btn">
       <input type="submit" value="登录" @touchstart="handleToLongin" />
     </div>
@@ -17,35 +21,37 @@
 </template>
 
 <script>
-
-
 import { messageBox } from "../JS/index";
 import { mapActions } from "vuex";
-
 
 export default {
   name: "Login",
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      verifyImg: ""
     };
   },
   methods: {
-    ...mapActions("login",["TO_LOGIN"]),
-    handleToLongin(username,password) {
-      this.TO_LOGIN({"username":this.username,"password":this.password}).then((res) => {
-        let that = this
+    ...mapActions("login", ["TO_LOGIN"]),
+    handleToLongin() {
+      this.TO_LOGIN({
+        username: this.username,
+        password: this.password,
+        verifyImg: this.verifyImg
+      }).then(res => {
+        let that = this;
         if (res.status === 0) {
           messageBox({
             title: "登录",
             content: res.msg,
             ok: "确定",
-            handleOk(){
-              that.$router.push('/mine/center')
-            },
+            handleOk() {
+              that.$router.push("/mine/center");
+            }
           });
-        }else{
+        } else {
           messageBox({
             title: "登录",
             content: res.msg,
@@ -53,6 +59,9 @@ export default {
           });
         }
       });
+    },
+    handleToVerifyImg(e) {
+      e.target.src = "/api2/users/getVerifyImg?" + Math.random();
     }
   }
 };

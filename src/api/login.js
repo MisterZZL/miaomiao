@@ -1,13 +1,14 @@
 import axios from '../axios/index'
 
 //登录
-export const login = (username, password) => {
+export const login = (username, password,verifyImg) => {
     return axios.request({
         url: "/api2/users/login",
         method: "post",
         data: {
             username,
-            password
+            password,
+            verifyImg
         }
     });
 }

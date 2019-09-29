@@ -21,8 +21,8 @@ const mutations = {
 
 const actions = {
     async TO_LOGIN(state, options) {
-        let res = await login(options.username, options.password)
-        // console.log(options.username, options.password)
+        let res = await login(options.username, options.password, options.verifyImg)
+        // console.log(options.username, options.password, options.verifyImg)
         if (res.status === 0) {
             // 登录成功，刷新本地保存的用户信息
             state.commit("setUser", res.username)
