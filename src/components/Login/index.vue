@@ -61,6 +61,7 @@ export default {
       });
     },
     handleToVerifyImg(e) {
+    
       e.target.src = "/api2/users/getVerifyImg?" + Math.random();
     }
   }

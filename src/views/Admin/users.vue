@@ -1,6 +1,14 @@
 <template>
   <div>
     <el-table :data="nowTableData" style="width: 100%">
+      <el-table-column label="头像">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">
+            <img :src="scope.row.userHead" class="userHead" />
+          </span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="日期">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
@@ -134,3 +142,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scope>
+  .userHead{
+    width: 40px
+  }
+</style>

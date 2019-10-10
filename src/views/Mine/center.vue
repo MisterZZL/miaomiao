@@ -7,10 +7,15 @@
       <!-- <span>第二种获取status中值的方法,用户名:{{username}}</span> -->
     </div>
     isAdmin:{{$store.state.mine.isAdmin}}
+    <div class="headImg">
+      <img :src="$store.state.mine.userHead" />
+      <input type="file" name="file" value="上传图像" />
+    </div>
     <div v-if="$store.state.mine.isAdmin">
       用户身份：
       <span>
-        管理员 <a href="/admin" target="blank">进入后台管理</a>
+        管理员
+        <a href="/admin" target="blank">进入后台管理</a>
       </span>
     </div>
 
@@ -50,7 +55,6 @@ export default {
       this.GET_USERINFO();
     },
 
-
     toLoginOut() {
       loginOut().then(res => {
         if (res.status === 0) {
@@ -65,3 +69,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.headImg {
+  float: right;
+  right: 0;
+  position: absolute;
+  width: 69px;
+  top: 0;
+ img {
+    width: 100%;
+  }
+}
+
+</style>
